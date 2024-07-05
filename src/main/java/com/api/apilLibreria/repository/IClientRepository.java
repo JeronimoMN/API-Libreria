@@ -1,9 +1,9 @@
 package com.api.apilLibreria.repository;
 
-import com.api.apilLibreria.model.UserModel;
+import com.api.apilLibreria.model.ClientModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IUserRepository extends JpaRepository<UserModel, Long> {
+public interface IClientRepository extends JpaRepository<ClientModel, Long> {
 }
