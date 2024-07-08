@@ -5,6 +5,9 @@ import com.api.apilLibreria.model.DTO.FormCreateUser;
 import com.api.apilLibreria.model.UserModel;
 import com.api.apilLibreria.repository.IClientRepository;
 import com.api.apilLibreria.repository.IUserRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,9 @@ public class UserService {
     private IUserRepository userRepository;
     @Autowired
     private IClientRepository clientRepository;
+
+    @PersistenceContext
+    private EntityManager em;
 
 
     public ArrayList<UserModel> getUsers(){
@@ -38,5 +44,13 @@ public class UserService {
         user.setState_account(rq.getState_account());
 
         this.userRepository.save(user);
+    }
+
+    public boolean validate_user_pass(String username, String password){
+        Query query = em.createNativeQuery("SELECT validateUserCredentials(:username, :password)", Boolean.class);
+        query.setParameter("username", username);
+        query.setParameter("password", password);
+
+        return (Boolean) query.getSingleResult();
     }
 }
